@@ -17,7 +17,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS CDN (For development/demo - Use PostCSS build for production) -->
+    <!-- Production: npm install -D tailwindcss && npx tailwindcss init -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
@@ -355,11 +356,13 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ text: feedbackText })
+                    body: JSON.stringify({ text: feedbackText }),
+                    signal: AbortSignal.timeout(10000) // 10 second timeout
                 });
                 
                 if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `Server error: ${response.status}`);
                 }
                 
                 const data = await response.json();
@@ -367,7 +370,13 @@
                 
             } catch (error) {
                 console.error('Error:', error);
-                showError('Unable to connect to the analysis service. Please ensure the server is running and try again.');
+                if (error.name === 'TimeoutError') {
+                    showError('Request timed out. Please try again.');
+                } else if (error.message.includes('Failed to fetch')) {
+                    showError('❌ Server connection failed. Please start the Flask server:\n\n1. Open terminal in project folder\n2. Activate virtual environment: .venv-1\\Scripts\\activate\n3. Run: python app.py\n4. Refresh this page');
+                } else {
+                    showError(`Error: ${error.message}`);
+                }
             } finally {
                 loadingDiv.classList.add('hidden');
                 analyzeBtn.disabled = false;
@@ -472,9 +481,28 @@
             feedbackInput.focus();
         }
         
-        // Auto-focus on load
+        // Check server status on page load
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('/api/health', {
+                    method: 'GET',
+                    signal: AbortSignal.timeout(3000)
+                });
+                if (response.ok) {
+                    console.log('✅ Server is running and healthy');
+                } else {
+                    console.warn('⚠️ Server responded but may have issues');
+                }
+            } catch (error) {
+                console.error('❌ Server is not responding:', error.message);
+                showError('⚠️ Warning: Unable to connect to the server.\n\nPlease start the Flask server:\n1. Open terminal: Ctrl+`\n2. Run: .venv-1\\Scripts\\python.exe app.py\n3. Refresh this page once server starts');
+            }
+        }
+        
+        // Auto-focus on load and check server
         window.addEventListener('load', () => {
             feedbackInput.focus();
+            checkServerStatus();
         });
     </script>
 </body>
