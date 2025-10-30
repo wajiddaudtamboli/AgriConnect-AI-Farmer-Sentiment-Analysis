@@ -17,10 +17,5 @@
   ],
   "env": {
     "NLTK_DATA": "/tmp/nltk_data"
-  },
-  "functions": {
-    "app.py": {
-      "memory": 1024
-    }
   }
 }
