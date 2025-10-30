@@ -356,7 +356,58 @@ pip install -r requirements.txt --force-reinstall
 
 ---
 
-## 👥 Team
+## � Deploy on Railway
+
+Deploy this Flask app instantly on [Railway.app](https://railway.app):
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/wajiddaudtamboli/AgriConnect-AI-Farmer-Sentiment-Analysis)
+
+### Quick Deploy Steps
+
+1. **Push to GitHub** (if not already done)
+   ```bash
+   git add .
+   git commit -m "Prepare project for Railway deployment"
+   git push origin main
+   ```
+
+2. **Deploy to Railway**
+   - Go to [Railway.app](https://railway.app)
+   - Click "New Project" → "Deploy from GitHub Repository"
+   - Select: `wajiddaudtamboli/AgriConnect-AI-Farmer-Sentiment-Analysis`
+   - Railway auto-detects Flask and deploys automatically
+
+3. **Get Your Live URL**
+   - Railway assigns a URL (e.g., `https://agriconnect-ai-production.up.railway.app`)
+   - Visit the URL to see your live app!
+
+### Environment Variables (Auto-configured)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `PORT` | Server port | Auto-assigned by Railway |
+| `NLTK_DATA` | Path to NLTK resources | `/tmp/nltk_data` |
+| `FLASK_ENV` | Run mode | `production` |
+
+### Deployment Files
+
+- ✅ `Procfile` - Gunicorn server configuration
+- ✅ `railway.json` - Railway-specific settings
+- ✅ `nixpacks.toml` - Build configuration  
+- ✅ `runtime.txt` - Python 3.9 specification
+- ✅ `requirements.txt` - Includes gunicorn for production
+
+**📖 For detailed deployment guide, see:** [RAILWAY_DEPLOYMENT.md](./RAILWAY_DEPLOYMENT.md)
+
+---
+
+## 🌐 Alternative: Deploy on Vercel
+
+For serverless deployment, see [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)
+
+---
+
+## �👥 Team
 
 **Developed by Team AgriConnect AI**
 

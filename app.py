@@ -13,6 +13,11 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Set NLTK data path for Railway deployment
+nltk_data_path = os.environ.get('NLTK_DATA', '/tmp/nltk_data')
+if nltk_data_path not in nltk.data.path:
+    nltk.data.path.append(nltk_data_path)
+
 # Download NLTK data quietly
 try:
     nltk.data.find('vader_lexicon')
@@ -134,15 +139,19 @@ def internal_error(error):
     }), 500
 
 if __name__ == '__main__':
+    # Get port from environment variable (Railway, Heroku, etc.) or default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    host = os.environ.get('HOST', '0.0.0.0')
+    
     print("\n" + "="*70)
     print("🌾 AgriConnect AI - Farmer Sentiment Analysis")
     print("="*70)
-    print("📍 Server running at: http://127.0.0.1:5000")
-    print("🌐 Web Interface: http://127.0.0.1:5000/")
-    print("📊 API Endpoint: http://127.0.0.1:5000/analyze-sentiment")
-    print("📖 API Documentation: http://127.0.0.1:5000/api-info")
-    print("🏥 Health Check: http://127.0.0.1:5000/api/health")
+    print(f"📍 Server running at: http://{host}:{port}")
+    print(f"🌐 Web Interface: http://{host}:{port}/")
+    print(f"📊 API Endpoint: http://{host}:{port}/analyze-sentiment")
+    print(f"📖 API Documentation: http://{host}:{port}/api-info")
+    print(f"🏥 Health Check: http://{host}:{port}/api/health")
     print("="*70)
     print("✨ Developed by Team AgriConnect AI")
     print("="*70 + "\n")
-    app.run(debug=False, use_reloader=False, host='127.0.0.1', port=5000, threaded=True)
+    app.run(debug=False, use_reloader=False, host=host, port=port, threaded=True)
