@@ -356,52 +356,15 @@ pip install -r requirements.txt --force-reinstall
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 👥 Team
 
 **Developed by Team AgriConnect AI**
-
-- Project Lead: [Wajid Daud Tamboli](https://github.com/wajiddaudtamboli)
-- Contributors: [View all contributors](https://github.com/wajiddaudtamboli/AgriConnect-AI-Farmer-Sentiment-Analysis/graphs/contributors)
-
----
-
-## 🙏 Acknowledgments
-
-- NLTK team for excellent NLP tools
-- Flask framework for robust web development
-- Tailwind CSS for beautiful styling
-- All contributors and testers
-
----
-
-## 📞 Support
-
-- **Issues**: [GitHub Issues](https://github.com/wajiddaudtamboli/AgriConnect-AI-Farmer-Sentiment-Analysis/issues)
-- **Email**: support@agriconnect-ai.com
-- **Documentation**: [Full Docs](https://github.com/wajiddaudtamboli/AgriConnect-AI-Farmer-Sentiment-Analysis/wiki)
-
----
-
-## ⭐ Star History
-
-If you find this project useful, please consider giving it a star ⭐
 
 ---
 
 <div align="center">
 
 **Made with ❤️ by Team AgriConnect AI**
-
-*Empowering farmers with AI technology*
-
-[Website](https://agriconnect-ai.vercel.app) | [Documentation](https://github.com/wajiddaudtamboli/AgriConnect-AI-Farmer-Sentiment-Analysis/wiki) | [Report Bug](https://github.com/wajiddaudtamboli/AgriConnect-AI-Farmer-Sentiment-Analysis/issues)
-
 © 2025 AgriConnect AI. All rights reserved.
 
 </div>
