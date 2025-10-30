@@ -124,72 +124,74 @@
     <div class="particle bg-blue-300" style="width: 45px; height: 45px; top: 40%; left: 70%; animation-delay: 8s;"></div>
     
     <!-- Main Container -->
-    <div class="container mx-auto px-4 py-8 relative z-10">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 relative z-10">
         
         <!-- Header -->
-        <header class="text-center mb-8 slide-up">
-            <div class="inline-block bg-white rounded-full px-6 py-2 mb-4 shadow-lg">
-                <span class="text-2xl">🌾</span>
-                <span class="ml-2 font-semibold gradient-text">AgriConnect AI</span>
+        <header class="text-center mb-6 sm:mb-8 lg:mb-10 slide-up">
+            <div class="inline-block bg-white rounded-full px-4 sm:px-6 py-2 mb-3 sm:mb-4 shadow-lg">
+                <span class="text-xl sm:text-2xl">🌾</span>
+                <span class="ml-2 font-semibold gradient-text text-sm sm:text-base">AgriConnect AI</span>
             </div>
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-3 px-2">
                 Farmer Sentiment Analysis
             </h1>
-            <p class="text-lg md:text-xl text-white opacity-90 max-w-2xl mx-auto">
+            <p class="text-base sm:text-lg md:text-xl text-white opacity-90 max-w-2xl mx-auto px-4">
                 Empowering agriculture with AI-driven insights to understand farmer feedback and sentiments
             </p>
         </header>
         
         <!-- Main Card -->
-        <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden slide-up" style="animation-delay: 0.2s;">
+        <div class="max-w-4xl mx-auto bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden slide-up" style="animation-delay: 0.2s;">
             
             <!-- Info Banner -->
-            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-4">
-                <div class="flex items-center justify-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 sm:px-6 py-3 sm:py-4">
+                <div class="flex items-center justify-center gap-2 text-center">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <span class="text-sm md:text-base">Enter farmer feedback below to analyze sentiment instantly</span>
+                    <span class="text-xs sm:text-sm md:text-base">Enter farmer feedback below to analyze sentiment instantly</span>
                 </div>
             </div>
             
             <!-- Content Area -->
-            <div class="p-6 md:p-10">
+            <div class="p-4 sm:p-6 lg:p-10">
                 
                 <!-- Input Section -->
-                <div class="mb-6">
-                    <label for="feedbackInput" class="block text-lg font-semibold text-gray-800 mb-3">
+                <div class="mb-4 sm:mb-6">
+                    <label for="feedbackInput" class="block text-base sm:text-lg font-semibold text-gray-800 mb-2 sm:mb-3">
                         📝 Farmer Feedback
                     </label>
                     <textarea 
                         id="feedbackInput" 
-                        rows="6" 
-                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl resize-none transition-all duration-300 focus:border-purple-500"
+                        rows="4" 
+                        class="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg sm:rounded-xl resize-none transition-all duration-300 focus:border-purple-500 text-sm sm:text-base"
                         placeholder="Example: The new irrigation system is working wonderfully! Our crops are healthier than ever and yields have increased significantly this season."
                     ></textarea>
-                    <div class="flex items-center justify-between mt-2 text-sm text-gray-500">
-                        <span>💡 Tip: Press Ctrl+Enter to analyze</span>
+                    <div class="flex items-center justify-between mt-2 text-xs sm:text-sm text-gray-500">
+                        <span class="hidden sm:inline">💡 Tip: Press Ctrl+Enter to analyze</span>
+                        <span class="sm:hidden">💡 Tap analyze below</span>
                         <span id="charCount">0 characters</span>
                     </div>
                 </div>
                 
                 <!-- Action Buttons -->
-                <div class="flex flex-col sm:flex-row gap-3 mb-8">
+                <div class="flex flex-col sm:flex-row gap-3 mb-6 sm:mb-8">
                     <button 
                         id="analyzeBtn" 
                         onclick="analyzeSentiment()" 
-                        class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-4 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                        class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
                         </svg>
-                        Analyze Sentiment
+                        <span class="hidden sm:inline">Analyze Sentiment</span>
+                        <span class="sm:hidden">Analyze</span>
                     </button>
                     <button 
                         onclick="clearForm()" 
-                        class="flex-1 sm:flex-none bg-gray-200 text-gray-700 font-semibold py-4 px-8 rounded-xl hover:bg-gray-300 transition-all duration-300 flex items-center justify-center gap-2"
+                        class="flex-1 sm:flex-none bg-gray-200 text-gray-700 font-semibold py-3 sm:py-4 px-4 sm:px-8 rounded-lg sm:rounded-xl hover:bg-gray-300 transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                         Clear
@@ -197,19 +199,19 @@
                 </div>
                 
                 <!-- Loading Indicator -->
-                <div id="loadingDiv" class="hidden text-center py-12">
+                <div id="loadingDiv" class="hidden text-center py-8 sm:py-12">
                     <div class="spinner mx-auto mb-4"></div>
-                    <p class="text-gray-600 font-medium pulse-animation">Analyzing feedback...</p>
-                    <p class="text-sm text-gray-500 mt-2">AI is processing your input</p>
+                    <p class="text-gray-600 font-medium pulse-animation text-sm sm:text-base">Analyzing feedback...</p>
+                    <p class="text-xs sm:text-sm text-gray-500 mt-2">AI is processing your input</p>
                 </div>
                 
                 <!-- Error Message -->
-                <div id="errorDiv" class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6" role="alert">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <div id="errorDiv" class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-3 sm:p-4 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base" role="alert">
+                    <div class="flex items-start gap-2">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
                         </svg>
-                        <span id="errorMessage" class="font-medium"></span>
+                        <span id="errorMessage" class="font-medium break-words"></span>
                     </div>
                 </div>
                 
@@ -217,58 +219,59 @@
                 <div id="resultsDiv" class="hidden slide-up">
                     
                     <!-- Sentiment Card -->
-                    <div id="sentimentCard" class="rounded-2xl p-8 mb-6 text-white text-center shadow-xl card-hover">
-                        <div class="text-6xl mb-4" id="sentimentEmoji">😊</div>
-                        <h2 class="text-3xl font-bold mb-2" id="sentimentLabel">POSITIVE</h2>
-                        <div class="flex items-center justify-center gap-2 text-xl">
+                    <div id="sentimentCard" class="rounded-xl sm:rounded-2xl p-6 sm:p-8 mb-4 sm:mb-6 text-white text-center shadow-xl card-hover">
+                        <div class="text-4xl sm:text-5xl lg:text-6xl mb-3 sm:mb-4" id="sentimentEmoji">😊</div>
+                        <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold mb-2" id="sentimentLabel">POSITIVE</h2>
+                        <div class="flex items-center justify-center gap-2 text-lg sm:text-xl">
                             <span class="font-semibold">Confidence:</span>
                             <span id="confidenceValue" class="font-bold">95%</span>
                         </div>
-                        <div class="mt-4 bg-white bg-opacity-20 rounded-full h-3 overflow-hidden">
+                        <div class="mt-3 sm:mt-4 bg-white bg-opacity-20 rounded-full h-2 sm:h-3 overflow-hidden">
                             <div id="confidenceBar" class="bg-white h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
                         </div>
                     </div>
                     
                     <!-- Detailed Scores -->
-                    <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 mb-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-4 sm:mb-6">
+                        <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
-                            Detailed Analysis
+                            <span class="hidden sm:inline">Detailed Analysis</span>
+                            <span class="sm:hidden">Analysis</span>
                         </h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                            <div class="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm">
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-gray-600 font-medium">😊 Positive</span>
-                                    <span id="positiveScore" class="text-green-600 font-bold text-lg">0%</span>
+                                    <span class="text-gray-600 font-medium text-sm sm:text-base">😊 Positive</span>
+                                    <span id="positiveScore" class="text-green-600 font-bold text-base sm:text-lg">0%</span>
                                 </div>
                                 <div class="bg-gray-200 rounded-full h-2 overflow-hidden">
                                     <div id="positiveBar" class="bg-green-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm">
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-gray-600 font-medium">😐 Neutral</span>
-                                    <span id="neutralScore" class="text-gray-600 font-bold text-lg">0%</span>
+                                    <span class="text-gray-600 font-medium text-sm sm:text-base">😐 Neutral</span>
+                                    <span id="neutralScore" class="text-gray-600 font-bold text-base sm:text-lg">0%</span>
                                 </div>
                                 <div class="bg-gray-200 rounded-full h-2 overflow-hidden">
                                     <div id="neutralBar" class="bg-gray-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm">
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-gray-600 font-medium">😞 Negative</span>
-                                    <span id="negativeScore" class="text-red-600 font-bold text-lg">0%</span>
+                                    <span class="text-gray-600 font-medium text-sm sm:text-base">😞 Negative</span>
+                                    <span id="negativeScore" class="text-red-600 font-bold text-base sm:text-lg">0%</span>
                                 </div>
                                 <div class="bg-gray-200 rounded-full h-2 overflow-hidden">
                                     <div id="negativeBar" class="bg-red-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm">
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-gray-600 font-medium">📊 Compound</span>
-                                    <span id="compoundScore" class="text-purple-600 font-bold text-lg">0.0</span>
+                                    <span class="text-gray-600 font-medium text-sm sm:text-base">📊 Compound</span>
+                                    <span id="compoundScore" class="text-purple-600 font-bold text-base sm:text-lg">0.0</span>
                                 </div>
                                 <div class="text-xs text-gray-500 mt-1">Overall sentiment score (-1 to +1)</div>
                             </div>
@@ -276,12 +279,13 @@
                     </div>
                     
                     <!-- Keywords Section -->
-                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl sm:rounded-2xl p-4 sm:p-6">
+                        <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center gap-2">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                             </svg>
-                            Key Topics
+                            <span class="hidden sm:inline">Key Topics</span>
+                            <span class="sm:hidden">Topics</span>
                         </h3>
                         <div id="keywordsContainer" class="flex flex-wrap gap-2"></div>
                     </div>
@@ -292,10 +296,10 @@
         </div>
         
         <!-- Footer -->
-        <footer class="text-center mt-12 text-white slide-up" style="animation-delay: 0.4s;">
-            <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl px-6 py-4 inline-block">
-                <p class="text-sm md:text-base font-medium">
-                    © 2025 Developed by <span class="font-bold">Team AgriConnect AI</span>
+        <footer class="text-center mt-8 sm:mt-12 text-white slide-up" style="animation-delay: 0.4s;">
+            <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 sm:py-4 inline-block">
+                <p class="text-xs sm:text-sm md:text-base font-medium">
+                    Developed with ❤️ by <span class="font-bold">Team AgriConnect AI</span>
                 </p>
                 <p class="text-xs md:text-sm opacity-75 mt-1">
                     Empowering farmers with AI technology
@@ -447,13 +451,13 @@
             if (data.keywords && data.keywords.length > 0) {
                 data.keywords.forEach((keyword, index) => {
                     const tag = document.createElement('span');
-                    tag.className = 'inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105';
+                    tag.className = 'inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white px-2 sm:px-3 lg:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105';
                     tag.textContent = `#${keyword}`;
                     tag.style.animationDelay = `${index * 0.1}s`;
                     keywordsContainer.appendChild(tag);
                 });
             } else {
-                keywordsContainer.innerHTML = '<span class="text-gray-500 italic">No keywords extracted</span>';
+                keywordsContainer.innerHTML = '<span class="text-gray-500 italic text-sm">No keywords extracted</span>';
             }
             
             // Show results with animation

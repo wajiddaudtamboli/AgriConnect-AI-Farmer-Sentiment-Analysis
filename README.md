@@ -18,10 +18,12 @@ An advanced sentiment analysis web application specifically designed for analyzi
 - 🔑 **Keyword Extraction** - Automatically identifies key topics from feedback
 - 🎨 **Modern UI** - Beautiful, responsive interface with purple/blue gradient theme
 - ⚡ **Real-time Processing** - Instant sentiment analysis with animated results
-- 📱 **Mobile Responsive** - Works seamlessly across all devices
+- 📱 **Mobile Responsive** - Optimized for mobile, tablet, and desktop with Tailwind CSS
+- 📱 **Cross-Device Support** - Perfect experience on phones, tablets, and computers
 - 🔒 **Rate Limiting** - Built-in protection against abuse
 - 📖 **API Documentation** - Complete REST API with detailed endpoints
-- 🚀 **Production Ready** - Optimized for deployment on Vercel
+- 🚀 **Production Ready** - Optimized for deployment on Deta Space, Railway, and Vercel
+- ☁️ **Multiple Hosting Options** - Deploy on free platforms (Deta Space) or premium (Railway/Vercel)
 
 ---
 
@@ -39,15 +41,22 @@ Real-time sentiment analysis with detailed scores and keyword extraction.
 
 ```
 AgriConnect-AI-Farmer-Sentiment-Analysis/
-├── app.py                      # Main Flask application
-├── requirements.txt            # Python dependencies
-├── vercel.json                 # Vercel deployment configuration
+├── app.py                      # Main Flask application (port 8000 for Deta Space)
+├── requirements.txt            # Python dependencies (optimized)
+├── Spacefile                   # Deta Space deployment configuration  
+├── Procfile                    # Railway deployment configuration
+├── railway.json                # Railway build settings
+├── nixpacks.toml              # Railway build configuration
+├── runtime.txt                # Python version specification
+├── vercel.json                # Vercel deployment configuration
 ├── .gitignore                 # Git ignore rules
 ├── README.md                  # Project documentation
+├── DETA_DEPLOYMENT.md         # Detailed Deta Space deployment guide
+├── RAILWAY_DEPLOYMENT.md      # Railway deployment guide
 ├── start_server.bat           # Windows server launcher
 │
 ├── templates/
-│   └── index.html            # Main web interface (Tailwind CSS)
+│   └── index.html            # Mobile-responsive web interface (Tailwind CSS)
 │
 ├── static/                    # Static assets (if needed)
 │
@@ -155,6 +164,51 @@ In Vercel Dashboard → Settings → Environment Variables:
 - `FLASK_DEBUG=False`
 - `FLASK_HOST=0.0.0.0`
 - `FLASK_PORT=8000`
+
+---
+
+## ☁️ Deploy on Deta Space (FREE & Always-On)
+
+[![Deploy to Deta Space](https://deta.space/buttons/deploy.svg)](https://deta.space)
+
+### Why Deta Space?
+- ✅ **100% FREE** hosting with no usage limits
+- ✅ **Always-on** - no cold starts or sleep mode  
+- ✅ **Instant HTTPS** with global CDN
+- ✅ **Zero configuration** deployment
+
+### Quick Deployment Steps:
+
+1. **Install Deta CLI**
+   ```bash
+   curl -fsSL https://get.deta.dev/space-cli.sh | sh
+   ```
+
+2. **Login to Deta Space**
+   ```bash
+   space login
+   ```
+
+3. **Navigate to project & deploy**
+   ```bash
+   cd AgriConnect-AI-Farmer-Sentiment-Analysis
+   space new
+   space push
+   ```
+
+4. **Access your live app**
+   - Your app will be available at: `https://agriconnect-ai-xyz.deta.app`
+   - Fully functional with HTTPS, global CDN, and unlimited usage!
+
+### 📖 Detailed Deployment Guide
+For complete step-by-step instructions, see: **[DETA_DEPLOYMENT.md](./DETA_DEPLOYMENT.md)**
+
+**Key Benefits:**
+- 🌐 **Free HTTPS domain** automatically provisioned
+- 📱 **Mobile responsive** design works perfectly
+- 🚀 **Instant global deployment** with edge caching
+- 💾 **No server management** required
+- 📊 **Built-in monitoring** and logs
 
 ---
 

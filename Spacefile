@@ -1,0 +1,20 @@
+# Spacefile for AgriConnect AI - Farmer Sentiment Analysis
+# Configuration for Deta Space deployment
+
+# Python runtime version
+engine = "python3.10"
+
+# Commands to run
+[run]
+# Main command to start the Flask application
+command = "python app.py"
+
+# Environment settings
+[env]
+# Set NLTK data path for Deta Space
+NLTK_DATA = "/tmp/nltk_data"
+
+# Development settings (optional)
+[dev]
+# Development command for testing
+command = "python app.py"

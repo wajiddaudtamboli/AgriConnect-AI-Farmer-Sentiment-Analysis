@@ -13,26 +13,30 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Set NLTK data path for Railway deployment
+# Set NLTK data path for cloud deployment (Railway, Deta Space, etc.)
 nltk_data_path = os.environ.get('NLTK_DATA', '/tmp/nltk_data')
 if nltk_data_path not in nltk.data.path:
     nltk.data.path.append(nltk_data_path)
 
-# Download NLTK data quietly
-try:
-    nltk.data.find('vader_lexicon')
-except LookupError:
-    nltk.download('vader_lexicon', quiet=True)
+# Download NLTK data quietly with error handling
+def download_nltk_data():
+    required_datasets = [
+        ('vader_lexicon', 'vader_lexicon'),
+        ('tokenizers/punkt', 'punkt'),
+        ('corpora/stopwords', 'stopwords')
+    ]
+    
+    for data_name, download_name in required_datasets:
+        try:
+            nltk.data.find(data_name)
+            logger.info(f"✅ NLTK {download_name} already available")
+        except LookupError:
+            logger.info(f"📥 Downloading NLTK {download_name}...")
+            nltk.download(download_name, quiet=True)
+            logger.info(f"✅ NLTK {download_name} downloaded successfully")
 
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt', quiet=True)
-
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords', quiet=True)
+# Initialize NLTK data
+download_nltk_data()
 
 app = Flask(__name__)
 CORS(app)
@@ -139,8 +143,8 @@ def internal_error(error):
     }), 500
 
 if __name__ == '__main__':
-    # Get port from environment variable (Railway, Heroku, etc.) or default to 5000
-    port = int(os.environ.get('PORT', 5000))
+    # Get port from environment variable or default to 8000 for Deta Space compatibility
+    port = int(os.environ.get('PORT', 8000))
     host = os.environ.get('HOST', '0.0.0.0')
     
     print("\n" + "="*70)
@@ -152,6 +156,6 @@ if __name__ == '__main__':
     print(f"📖 API Documentation: http://{host}:{port}/api-info")
     print(f"🏥 Health Check: http://{host}:{port}/api/health")
     print("="*70)
-    print("✨ Developed by Team AgriConnect AI")
+    print("✨ Developed with ❤️ by Team AgriConnect AI")
     print("="*70 + "\n")
     app.run(debug=False, use_reloader=False, host=host, port=port, threaded=True)
