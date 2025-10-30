@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Sentiment Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .input-section {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 150px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .analyze-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .clear-btn {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .clear-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .results {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sentiment-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sentiment-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .sentiment-value {
+            font-size: 3em;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .sentiment-positive {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .sentiment-negative {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+        }
+
+        .sentiment-neutral {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .confidence {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            color: #333;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .keywords {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .keywords h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .keyword-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .keyword-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.95em;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #667eea;
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .examples {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .examples h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .example-btn {
+            background: #f8f9fa;
+            color: #667eea;
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .example-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌾 Farmer Sentiment Analysis</h1>
+        <p class="subtitle">Analyze farmer feedback to understand sentiment and key concerns</p>
+
+        <div class="error" id="error"></div>
+
+        <div class="input-section">
+            <label for="feedback">Enter Farmer Feedback:</label>
+            <textarea id="feedback" placeholder="Type or paste farmer feedback here..."></textarea>
+        </div>
+
+        <div class="button-group">
+            <button class="analyze-btn" onclick="analyzeSentiment()">🔍 Analyze Sentiment</button>
+            <button class="clear-btn" onclick="clearAll()">🗑️ Clear</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Analyzing sentiment...</p>
+        </div>
+
+        <div class="results" id="results">
+            <div class="sentiment-card" id="sentimentCard">
+                <div class="sentiment-label">Sentiment Analysis Result</div>
+                <div class="sentiment-value" id="sentimentValue">-</div>
+                <div class="confidence" id="confidence">Confidence: -</div>
+            </div>
+
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-label">Positive</div>
+                    <div class="metric-value" id="positiveScore">-</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Negative</div>
+                    <div class="metric-value" id="negativeScore">-</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Neutral</div>
+                    <div class="metric-value" id="neutralScore">-</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Compound</div>
+                    <div class="metric-value" id="compoundScore">-</div>
+                </div>
+            </div>
+
+            <div class="keywords">
+                <h3>🔑 Key Topics</h3>
+                <div class="keyword-tags" id="keywords"></div>
+            </div>
+        </div>
+
+        <div class="examples">
+            <h3>📝 Try These Examples:</h3>
+            <button class="example-btn" onclick="loadExample(1)">Positive Feedback</button>
+            <button class="example-btn" onclick="loadExample(2)">Negative Feedback</button>
+            <button class="example-btn" onclick="loadExample(3)">Neutral Feedback</button>
+        </div>
+    </div>
+
+    <script>
+        const examples = {
+            1: "The new irrigation system is working wonderfully! Our crops are healthier than ever and the yield has increased significantly. Very satisfied with the government support program.",
+            2: "The pest problem is terrible this season. My crops are dying and I'm very disappointed with the lack of support. The prices are too low and costs are too high.",
+            3: "The weather this season has been average. Some crops did okay, others not so much. Things are pretty much the same as last year."
+        };
+
+        function loadExample(num) {
+            document.getElementById('feedback').value = examples[num];
+        }
+
+        function clearAll() {
+            document.getElementById('feedback').value = '';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+        }
+
+        async function analyzeSentiment() {
+            const feedback = document.getElementById('feedback').value.trim();
+            
+            if (!feedback) {
+                showError('Please enter some feedback to analyze.');
+                return;
+            }
+
+            // Hide previous results and errors
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/analyze-sentiment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: feedback })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                displayResults(data);
+            } catch (error) {
+                showError('Failed to analyze sentiment. Make sure the API server is running on http://127.0.0.1:5000');
+                console.error('Error:', error);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function displayResults(data) {
+            // Update sentiment card
+            const sentimentCard = document.getElementById('sentimentCard');
+            const sentimentValue = document.getElementById('sentimentValue');
+            const confidence = document.getElementById('confidence');
+
+            sentimentCard.className = 'sentiment-card sentiment-' + data.sentiment;
+            sentimentValue.textContent = data.sentiment;
+            confidence.textContent = `Confidence: ${(data.confidence * 100).toFixed(1)}%`;
+
+            // Update metrics
+            document.getElementById('positiveScore').textContent = (data.scores.positive * 100).toFixed(1) + '%';
+            document.getElementById('negativeScore').textContent = (data.scores.negative * 100).toFixed(1) + '%';
+            document.getElementById('neutralScore').textContent = (data.scores.neutral * 100).toFixed(1) + '%';
+            document.getElementById('compoundScore').textContent = data.scores.compound.toFixed(3);
+
+            // Update keywords
+            const keywordsContainer = document.getElementById('keywords');
+            keywordsContainer.innerHTML = '';
+            data.keywords.forEach(keyword => {
+                const tag = document.createElement('span');
+                tag.className = 'keyword-tag';
+                tag.textContent = keyword;
+                keywordsContainer.appendChild(tag);
+            });
+
+            // Show results
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Allow Enter key to submit (Ctrl+Enter for newline)
+        document.getElementById('feedback').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                analyzeSentiment();
+            }
+        });
+    </script>
+</body>
+</html>

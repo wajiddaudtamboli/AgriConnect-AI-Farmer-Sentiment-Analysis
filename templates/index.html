@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AgriConnect AI - Advanced sentiment analysis for farmer feedback using AI-powered natural language processing">
+    <meta name="keywords" content="agriculture, AI, sentiment analysis, farmer feedback, AgriConnect">
+    <meta name="author" content="Team AgriConnect AI">
+    
+    <title>AgriConnect AI - Farmer Sentiment Analysis</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.3;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-50px) translateX(30px) rotate(90deg); }
+            50% { transform: translateY(-100px) translateX(-30px) rotate(180deg); }
+            75% { transform: translateY(-50px) translateX(30px) rotate(270deg); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .7; }
+        }
+        
+        .slide-up {
+            animation: slideUp 0.5s ease-out forwards;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid white;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="relative">
+    
+    <!-- Animated Background Particles -->
+    <div class="particle bg-green-400" style="width: 60px; height: 60px; top: 10%; left: 10%; animation-delay: 0s;"></div>
+    <div class="particle bg-blue-400" style="width: 40px; height: 40px; top: 20%; left: 80%; animation-delay: 2s;"></div>
+    <div class="particle bg-purple-400" style="width: 50px; height: 50px; top: 60%; left: 15%; animation-delay: 4s;"></div>
+    <div class="particle bg-green-300" style="width: 35px; height: 35px; top: 70%; left: 85%; animation-delay: 6s;"></div>
+    <div class="particle bg-blue-300" style="width: 45px; height: 45px; top: 40%; left: 70%; animation-delay: 8s;"></div>
+    
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-8 relative z-10">
+        
+        <!-- Header -->
+        <header class="text-center mb-8 slide-up">
+            <div class="inline-block bg-white rounded-full px-6 py-2 mb-4 shadow-lg">
+                <span class="text-2xl">🌾</span>
+                <span class="ml-2 font-semibold gradient-text">AgriConnect AI</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">
+                Farmer Sentiment Analysis
+            </h1>
+            <p class="text-lg md:text-xl text-white opacity-90 max-w-2xl mx-auto">
+                Empowering agriculture with AI-driven insights to understand farmer feedback and sentiments
+            </p>
+        </header>
+        
+        <!-- Main Card -->
+        <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden slide-up" style="animation-delay: 0.2s;">
+            
+            <!-- Info Banner -->
+            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-4">
+                <div class="flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm md:text-base">Enter farmer feedback below to analyze sentiment instantly</span>
+                </div>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="p-6 md:p-10">
+                
+                <!-- Input Section -->
+                <div class="mb-6">
+                    <label for="feedbackInput" class="block text-lg font-semibold text-gray-800 mb-3">
+                        📝 Farmer Feedback
+                    </label>
+                    <textarea 
+                        id="feedbackInput" 
+                        rows="6" 
+                        class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl resize-none transition-all duration-300 focus:border-purple-500"
+                        placeholder="Example: The new irrigation system is working wonderfully! Our crops are healthier than ever and yields have increased significantly this season."
+                    ></textarea>
+                    <div class="flex items-center justify-between mt-2 text-sm text-gray-500">
+                        <span>💡 Tip: Press Ctrl+Enter to analyze</span>
+                        <span id="charCount">0 characters</span>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-3 mb-8">
+                    <button 
+                        id="analyzeBtn" 
+                        onclick="analyzeSentiment()" 
+                        class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-4 px-6 rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                        </svg>
+                        Analyze Sentiment
+                    </button>
+                    <button 
+                        onclick="clearForm()" 
+                        class="flex-1 sm:flex-none bg-gray-200 text-gray-700 font-semibold py-4 px-8 rounded-xl hover:bg-gray-300 transition-all duration-300 flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        Clear
+                    </button>
+                </div>
+                
+                <!-- Loading Indicator -->
+                <div id="loadingDiv" class="hidden text-center py-12">
+                    <div class="spinner mx-auto mb-4"></div>
+                    <p class="text-gray-600 font-medium pulse-animation">Analyzing feedback...</p>
+                    <p class="text-sm text-gray-500 mt-2">AI is processing your input</p>
+                </div>
+                
+                <!-- Error Message -->
+                <div id="errorDiv" class="hidden bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6" role="alert">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span id="errorMessage" class="font-medium"></span>
+                    </div>
+                </div>
+                
+                <!-- Results Section -->
+                <div id="resultsDiv" class="hidden slide-up">
+                    
+                    <!-- Sentiment Card -->
+                    <div id="sentimentCard" class="rounded-2xl p-8 mb-6 text-white text-center shadow-xl card-hover">
+                        <div class="text-6xl mb-4" id="sentimentEmoji">😊</div>
+                        <h2 class="text-3xl font-bold mb-2" id="sentimentLabel">POSITIVE</h2>
+                        <div class="flex items-center justify-center gap-2 text-xl">
+                            <span class="font-semibold">Confidence:</span>
+                            <span id="confidenceValue" class="font-bold">95%</span>
+                        </div>
+                        <div class="mt-4 bg-white bg-opacity-20 rounded-full h-3 overflow-hidden">
+                            <div id="confidenceBar" class="bg-white h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Detailed Scores -->
+                    <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-6 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            Detailed Analysis
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-600 font-medium">😊 Positive</span>
+                                    <span id="positiveScore" class="text-green-600 font-bold text-lg">0%</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-2 overflow-hidden">
+                                    <div id="positiveBar" class="bg-green-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-600 font-medium">😐 Neutral</span>
+                                    <span id="neutralScore" class="text-gray-600 font-bold text-lg">0%</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-2 overflow-hidden">
+                                    <div id="neutralBar" class="bg-gray-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-600 font-medium">😞 Negative</span>
+                                    <span id="negativeScore" class="text-red-600 font-bold text-lg">0%</span>
+                                </div>
+                                <div class="bg-gray-200 rounded-full h-2 overflow-hidden">
+                                    <div id="negativeBar" class="bg-red-500 h-full rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-4 shadow-sm">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-gray-600 font-medium">📊 Compound</span>
+                                    <span id="compoundScore" class="text-purple-600 font-bold text-lg">0.0</span>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">Overall sentiment score (-1 to +1)</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Keywords Section -->
+                    <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                            </svg>
+                            Key Topics
+                        </h3>
+                        <div id="keywordsContainer" class="flex flex-wrap gap-2"></div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="text-center mt-12 text-white slide-up" style="animation-delay: 0.4s;">
+            <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl px-6 py-4 inline-block">
+                <p class="text-sm md:text-base font-medium">
+                    © 2025 Developed by <span class="font-bold">Team AgriConnect AI</span>
+                </p>
+                <p class="text-xs md:text-sm opacity-75 mt-1">
+                    Empowering farmers with AI technology
+                </p>
+            </div>
+        </footer>
+        
+    </div>
+    
+    <script>
+        // Character counter
+        const feedbackInput = document.getElementById('feedbackInput');
+        const charCount = document.getElementById('charCount');
+        
+        feedbackInput.addEventListener('input', () => {
+            const count = feedbackInput.value.length;
+            charCount.textContent = `${count} character${count !== 1 ? 's' : ''}`;
+        });
+        
+        // Keyboard shortcut (Ctrl+Enter to analyze)
+        feedbackInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                analyzeSentiment();
+            }
+        });
+        
+        // Analyze sentiment function
+        async function analyzeSentiment() {
+            const feedbackText = feedbackInput.value.trim();
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const loadingDiv = document.getElementById('loadingDiv');
+            const errorDiv = document.getElementById('errorDiv');
+            const resultsDiv = document.getElementById('resultsDiv');
+            
+            // Hide previous results and errors
+            errorDiv.classList.add('hidden');
+            resultsDiv.classList.add('hidden');
+            
+            // Validate input
+            if (!feedbackText) {
+                showError('Please enter some feedback to analyze.');
+                feedbackInput.focus();
+                return;
+            }
+            
+            if (feedbackText.length < 10) {
+                showError('Please enter at least 10 characters for accurate analysis.');
+                return;
+            }
+            
+            // Show loading
+            analyzeBtn.disabled = true;
+            loadingDiv.classList.remove('hidden');
+            
+            try {
+                const response = await fetch('/analyze-sentiment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text: feedbackText })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                displayResults(data);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Unable to connect to the analysis service. Please ensure the server is running and try again.');
+            } finally {
+                loadingDiv.classList.add('hidden');
+                analyzeBtn.disabled = false;
+            }
+        }
+        
+        // Display results
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('resultsDiv');
+            const sentimentCard = document.getElementById('sentimentCard');
+            const sentimentLabel = document.getElementById('sentimentLabel');
+            const sentimentEmoji = document.getElementById('sentimentEmoji');
+            const confidenceValue = document.getElementById('confidenceValue');
+            const confidenceBar = document.getElementById('confidenceBar');
+            
+            // Sentiment configuration
+            const sentimentConfig = {
+                'positive': {
+                    color: 'bg-gradient-to-r from-green-500 to-emerald-600',
+                    emoji: '😊',
+                    label: 'POSITIVE'
+                },
+                'negative': {
+                    color: 'bg-gradient-to-r from-red-500 to-rose-600',
+                    emoji: '😞',
+                    label: 'NEGATIVE'
+                },
+                'neutral': {
+                    color: 'bg-gradient-to-r from-gray-500 to-slate-600',
+                    emoji: '😐',
+                    label: 'NEUTRAL'
+                }
+            };
+            
+            const config = sentimentConfig[data.sentiment] || sentimentConfig['neutral'];
+            
+            // Update sentiment card
+            sentimentCard.className = `rounded-2xl p-8 mb-6 text-white text-center shadow-xl card-hover ${config.color}`;
+            sentimentLabel.textContent = config.label;
+            sentimentEmoji.textContent = config.emoji;
+            
+            const confidencePercent = (data.confidence * 100).toFixed(1);
+            confidenceValue.textContent = `${confidencePercent}%`;
+            
+            // Animate confidence bar
+            setTimeout(() => {
+                confidenceBar.style.width = `${confidencePercent}%`;
+            }, 100);
+            
+            // Update detailed scores
+            const scores = data.scores;
+            document.getElementById('positiveScore').textContent = `${(scores.positive * 100).toFixed(1)}%`;
+            document.getElementById('neutralScore').textContent = `${(scores.neutral * 100).toFixed(1)}%`;
+            document.getElementById('negativeScore').textContent = `${(scores.negative * 100).toFixed(1)}%`;
+            document.getElementById('compoundScore').textContent = scores.compound.toFixed(4);
+            
+            // Animate score bars
+            setTimeout(() => {
+                document.getElementById('positiveBar').style.width = `${scores.positive * 100}%`;
+                document.getElementById('neutralBar').style.width = `${scores.neutral * 100}%`;
+                document.getElementById('negativeBar').style.width = `${scores.negative * 100}%`;
+            }, 200);
+            
+            // Update keywords
+            const keywordsContainer = document.getElementById('keywordsContainer');
+            keywordsContainer.innerHTML = '';
+            
+            if (data.keywords && data.keywords.length > 0) {
+                data.keywords.forEach((keyword, index) => {
+                    const tag = document.createElement('span');
+                    tag.className = 'inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105';
+                    tag.textContent = `#${keyword}`;
+                    tag.style.animationDelay = `${index * 0.1}s`;
+                    keywordsContainer.appendChild(tag);
+                });
+            } else {
+                keywordsContainer.innerHTML = '<span class="text-gray-500 italic">No keywords extracted</span>';
+            }
+            
+            // Show results with animation
+            resultsDiv.classList.remove('hidden');
+            setTimeout(() => {
+                resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+        
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('errorDiv');
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorDiv.classList.remove('hidden');
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Clear form
+        function clearForm() {
+            feedbackInput.value = '';
+            charCount.textContent = '0 characters';
+            document.getElementById('resultsDiv').classList.add('hidden');
+            document.getElementById('errorDiv').classList.add('hidden');
+            feedbackInput.focus();
+        }
+        
+        // Auto-focus on load
+        window.addEventListener('load', () => {
+            feedbackInput.focus();
+        });
+    </script>
+</body>
+</html>
