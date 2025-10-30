@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "app.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
     }
   ],
   "routes": [
@@ -13,8 +16,11 @@
     }
   ],
   "env": {
-    "FLASK_HOST": "0.0.0.0",
-    "FLASK_PORT": "8000",
-    "FLASK_DEBUG": "False"
+    "NLTK_DATA": "/tmp/nltk_data"
+  },
+  "functions": {
+    "app.py": {
+      "memory": 1024
+    }
   }
 }

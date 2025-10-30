@@ -13,12 +13,12 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Set NLTK data path for cloud deployment (Railway, Deta Space, etc.)
+# Set NLTK data path for serverless deployment (Vercel, Railway, Deta Space)
 nltk_data_path = os.environ.get('NLTK_DATA', '/tmp/nltk_data')
 if nltk_data_path not in nltk.data.path:
     nltk.data.path.append(nltk_data_path)
 
-# Download NLTK data quietly with error handling
+# Download NLTK data quietly with error handling for serverless
 def download_nltk_data():
     required_datasets = [
         ('vader_lexicon', 'vader_lexicon'),
@@ -31,9 +31,12 @@ def download_nltk_data():
             nltk.data.find(data_name)
             logger.info(f"✅ NLTK {download_name} already available")
         except LookupError:
-            logger.info(f"📥 Downloading NLTK {download_name}...")
-            nltk.download(download_name, quiet=True)
-            logger.info(f"✅ NLTK {download_name} downloaded successfully")
+            try:
+                logger.info(f"📥 Downloading NLTK {download_name}...")
+                nltk.download(download_name, quiet=True, download_dir=nltk_data_path)
+                logger.info(f"✅ NLTK {download_name} downloaded successfully")
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to download {download_name}: {e}")
 
 # Initialize NLTK data
 download_nltk_data()
@@ -41,59 +44,96 @@ download_nltk_data()
 app = Flask(__name__)
 CORS(app)
 
-sia = SentimentIntensityAnalyzer()
-stop_words = set(stopwords.words('english'))
+# Initialize sentiment analyzer with error handling
+try:
+    sia = SentimentIntensityAnalyzer()
+except Exception as e:
+    logger.error(f"Failed to initialize SentimentIntensityAnalyzer: {e}")
+    sia = None
+
+# Initialize stopwords with fallback
+try:
+    stop_words = set(stopwords.words('english'))
+except Exception as e:
+    logger.warning(f"Failed to load stopwords: {e}")
+    # Fallback to common English stopwords
+    stop_words = {'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 
+                 'has', 'he', 'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the', 
+                 'to', 'was', 'will', 'with', 'would'}
 
 def extract_keywords(text, top_n=5):
-    # Tokenize and clean the text
-    tokens = word_tokenize(text.lower())
-    tokens = [word for word in tokens if word.isalpha()]  # remove punctuation
-    tokens = [word for word in tokens if word not in stop_words]  # remove stopwords
-    
-    # Get most frequent words
-    freq_dist = FreqDist(tokens)
-    keywords = [word for word, freq in freq_dist.most_common(top_n)]
-    
-    return keywords
+    try:
+        # Tokenize and clean the text
+        tokens = word_tokenize(text.lower())
+        tokens = [word for word in tokens if word.isalpha()]  # remove punctuation
+        tokens = [word for word in tokens if word not in stop_words]  # remove stopwords
+        
+        # Get most frequent words
+        freq_dist = FreqDist(tokens)
+        keywords = [word for word, freq in freq_dist.most_common(top_n)]
+        
+        return keywords
+    except Exception as e:
+        logger.warning(f"Error in keyword extraction: {e}")
+        # Fallback: simple keyword extraction
+        words = text.lower().split()
+        words = [word.strip('.,!?;:"()[]{}') for word in words if len(word) > 3]
+        words = [word for word in words if word not in stop_words]
+        return list(set(words))[:top_n]
 
 @app.route('/analyze-sentiment', methods=['POST'])
 def analyze_sentiment():
-    data = request.get_json()
-    text = data.get('text', '')
-    
-    if not text:
-        return jsonify({'error': 'No text provided'}), 400
-    
-    # Perform sentiment analysis
-    sentiment_scores = sia.polarity_scores(text)
-    
-    # Determine sentiment label
-    if sentiment_scores['compound'] >= 0.05:
-        sentiment = 'positive'
-        confidence = sentiment_scores['pos']
-    elif sentiment_scores['compound'] <= -0.05:
-        sentiment = 'negative'
-        confidence = sentiment_scores['neg']
-    else:
-        sentiment = 'neutral'
-        confidence = sentiment_scores['neu']
-    
-    # Extract keywords
-    keywords = extract_keywords(text)
-    
-    response = {
-        'sentiment': sentiment,
-        'confidence': confidence,
-        'keywords': keywords,
-        'scores': {
-            'positive': sentiment_scores['pos'],
-            'negative': sentiment_scores['neg'],
-            'neutral': sentiment_scores['neu'],
-            'compound': sentiment_scores['compound']
+    try:
+        data = request.get_json()
+        text = data.get('text', '')
+        
+        if not text:
+            return jsonify({'error': 'No text provided'}), 400
+        
+        # Check if sentiment analyzer is available
+        if sia is None:
+            return jsonify({
+                'error': 'Sentiment analyzer not available',
+                'message': 'NLTK VADER model failed to load'
+            }), 503
+        
+        # Perform sentiment analysis
+        sentiment_scores = sia.polarity_scores(text)
+        
+        # Determine sentiment label
+        if sentiment_scores['compound'] >= 0.05:
+            sentiment = 'positive'
+            confidence = sentiment_scores['pos']
+        elif sentiment_scores['compound'] <= -0.05:
+            sentiment = 'negative'
+            confidence = sentiment_scores['neg']
+        else:
+            sentiment = 'neutral'
+            confidence = sentiment_scores['neu']
+        
+        # Extract keywords
+        keywords = extract_keywords(text)
+        
+        response = {
+            'sentiment': sentiment,
+            'confidence': confidence,
+            'keywords': keywords,
+            'scores': {
+                'positive': sentiment_scores['pos'],
+                'negative': sentiment_scores['neg'],
+                'neutral': sentiment_scores['neu'],
+                'compound': sentiment_scores['compound']
+            }
         }
-    }
+        
+        return jsonify(response)
     
-    return jsonify(response)
+    except Exception as e:
+        logger.error(f"Error in sentiment analysis: {e}")
+        return jsonify({
+            'error': 'Analysis failed',
+            'message': str(e)
+        }), 500
 
 @app.route('/')
 def home():
@@ -159,3 +199,9 @@ if __name__ == '__main__':
     print("✨ Developed with ❤️ by Team AgriConnect AI")
     print("="*70 + "\n")
     app.run(debug=False, use_reloader=False, host=host, port=port, threaded=True)
+
+# Vercel serverless compatibility
+# This allows Vercel to import the app directly
+if not __name__ == '__main__':
+    # For serverless deployment (Vercel)
+    app = app

@@ -1,0 +1,14 @@
+# Vercel-compatible requirements for AgriConnect AI
+Flask==3.0.0
+flask-cors==4.0.0
+Werkzeug==3.1.3
+
+# Natural Language Processing (Vercel-optimized)
+nltk==3.8.1
+vaderSentiment==3.3.2
+
+# Lightweight data handling for serverless
+numpy==1.26.2
+
+# Note: Removed heavy dependencies for Vercel compatibility
+# pandas and scikit-learn are too large for Vercel's 50MB limit
